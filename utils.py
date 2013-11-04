@@ -6,8 +6,10 @@ def get_db():
     conn = MongoClient()
     return conn['nba']
 
-def day_gen(start_day = '20121030'):
+def day_gen(start_day = None):
     """ returns datetime objects for every day between start_day and now """
+    if not start_day:
+        start_day = '2012-10-13'
     cur = dateparser.parse(start_day)
     stop = datetime.now()
 
