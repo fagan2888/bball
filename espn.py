@@ -25,6 +25,15 @@ def _gen_game_key(game_id):
     """
     return md5("game_id:%s" % game_id).hexdigest()
 
+def _select_espn_game_ids():
+    """
+    returns a set of all espn game ids already in the db
+    """
+    db = utils.get_db()
+    docs = db.games.find({},{'espn_game_id':True})
+    game_ids = set([doc['espn_game_id'] for doc in docs])
+    return game_ids
+
 def insert_game_ids():
     """
     iterates through days and finds all espn game_ids from those days.
@@ -115,7 +124,11 @@ def _format_shot(shot,game_id):
     else:
         pdb.set_trace()
 
-    d['espn_player_name'] = shot['p']
+    name = shot['p']
+    d['espn_first_name_lower'] name.split('  ')[0]
+    d['espn_last_name_lower'] name.split('  ')[-1]
+    d['espn_player_name'] = name.replace('  ',' ')
+    d['espn_player_name_lower'] = name.replace('  ',' ').lower()
     d['espn_description'] = shot['d']
 
     mongo_shot_id = _gen_shot_key(shot['id'],game_id)
@@ -201,12 +214,13 @@ def _insert_shots(game_id):
         db.shots.save(shot)
 
 def insert_all_shots():
-    # TODO: pass in progress callback
-    game_ids = get_game_ids_db()
+    db = utils.get_db()
+    game_ids = set(get_game_ids_db())
+    seen = set(db.shots.distinct('espn_game_id'))
     
     cnt = 0
 
-    for game_id in game_ids:
+    for game_id in game_ids.difference(seen):
         _insert_shots(game_id)
 
         if cnt % 10 == 0:
@@ -220,4 +234,4 @@ def populate_db():
     insert_all_shots()
 
 if __name__ == '__main__':
-    insert_all_shots()
+    populate_db()

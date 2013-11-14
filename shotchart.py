@@ -36,21 +36,34 @@ def prepare_shotchart():
     xs = []
     ys = []
     pct = []
-    opacity = []
+    attempts = []
+    tups = []
     for x in range(-25,26):
         for y in range(-4,31):
             shots = find_shots_center(x,y)
-            opacity.append(len(shots))
+            pct = fg_pct(shots)
+            atts = len(shots)
             xs.append(x)
             ys.append(y)
-            pct.append(fg_pct(shots))
-    return (xs,ys,pct,opacity)
+            pct.append(pct)
+            attempts.append(atts)
+            tups.append((x,y,pct,atts))
+
+    return tups
 
 def draw_shotchart(xs,ys,pct):
     plot.scatter(xs,ys,c=pct,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.85),s=100)
     plot.show()
 
-xs,ys,pct,opacity = prepare_shotchart()
-draw_shotchart(xs,ys,pct)
+def draw_shotchart(tups):
+    for (x,y,pct,op) in tups:
+        op = op/600.
+        plot.scatter(x,y,c=pct,alpha=op,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.7),s=100)
+    plot.show()
 
+#xs,ys,pct,opacity = prepare_shotchart()
+#draw_shotchart(xs,ys,pct)
+
+tups = prepare_shotchart()
+draw_shotchart(tups)
 
