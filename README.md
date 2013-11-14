@@ -25,3 +25,14 @@ collection.
 db.shots.ensureIndex({"pos":"2d"})
 
 http://docs.mongodb.org/manual/reference/operator/query/center/
+
+
+#TODO
+allow for arbitrary filters for shots data
+  player
+  team
+  year
+  season
+  away / home
+  quarter
+  opponent
