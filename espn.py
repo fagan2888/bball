@@ -125,8 +125,8 @@ def _format_shot(shot,game_id):
         pdb.set_trace()
 
     name = shot['p']
-    d['espn_first_name_lower'] = name.split('  ')[0]
-    d['espn_last_name_lower'] = name.split('  ')[-1]
+    d['espn_first_name_lower'] = name.split('  ')[0].lower()
+    d['espn_last_name_lower'] = name.split('  ')[-1].lower()
     d['espn_player_name'] = name.replace('  ',' ')
     d['espn_player_name_lower'] = name.replace('  ',' ').lower()
     d['espn_description'] = shot['d']
