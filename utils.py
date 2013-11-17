@@ -1,6 +1,7 @@
 from dateutil import parser as dateparser
 from datetime import datetime, timedelta
 from pymongo import MongoClient
+import time
 
 def get_db():
     conn = MongoClient()
@@ -19,7 +20,13 @@ def day_gen(start_day = None):
         yield cur
         cur += inc
 
-
-            
-
-    
+def timeit(fn):
+    """
+    decorator for timing funcs!
+    """
+    def timed(*args,**kwargs):
+        start = time.time()
+        resp = fn(*args,**kwargs)
+        print "took %0.3f seconds" % (time.time()-start)
+        return resp
+    return timed

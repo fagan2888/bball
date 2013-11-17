@@ -54,12 +54,12 @@ def quarter_str(param_str):
 
 def half(half):
     """ 1st or 2nd half. half is an int """
-    if half == 1:
-        return quarter([1,2])
-    elif half == 2:
-        return quarter([3,4])
+    if half == '1':
+        return quarter(['1','2'])
+    elif half == '2':
+        return quarter(['3','4'])
     else:
-        raise Exception('half needs to be an int, 1 or 2')
+        raise Exception("half needs to be '1' or '2'")
     
 def home(is_home):
     if isinstance(is_home,str):
@@ -114,4 +114,5 @@ def test():
     db = utils.get_db()
     print db.shots.find(mongo_filter).count()
 
-test()
+if __name__ == '__main__':
+    test()
