@@ -27,6 +27,6 @@ def timeit(fn):
     def timed(*args,**kwargs):
         start = time.time()
         resp = fn(*args,**kwargs)
-        print "took %0.3f seconds" % (time.time()-start)
+        print "%s took %0.3f seconds" % (fn.__name__,time.time()-start)
         return resp
     return timed
