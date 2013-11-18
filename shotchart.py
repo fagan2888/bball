@@ -1,8 +1,8 @@
 import utils
 import numpy as np
-from matplotlib import pyplot as plot
-from matplotlib.colors import Normalize as norm
+import pdb
 import time
+import StringIO
 
 def find_shots(params={}):
     """
@@ -60,41 +60,77 @@ def prepare_shotchart_old(params={}):
 def prepare_shotchart(params={}):
     shots = find_shots(params)
     pos2shots = {}
-    most_common = -1
     for shot in shots:
         x = shot['x']
         y = shot['y']
         cur = pos2shots.get((x,y),[])
-        cur.append(shot)
+        if shot['made']:
+            cur.append(1)
+        else:
+            cur.append(0)
         pos2shots[(x,y)] = cur
-        most_common = float(max(len(cur),most_common))
 
-    tups = []
-    max_y = 30 # longest pos on court to consider
-    for pos,shots in pos2shots.items():
-        x,y = pos
-        if y > max_y:
-            continue
-        pct = fg_pct(shots)
-        opacity = len(shots)/(0.2*most_common) # need some better scaling!
-        tups.append((x,y,pct,opacity))
-    return tups
+    xs = []
+    ys = []
+    pcts = []
+    ops = []
+    filter_width = 1 # number of adjacent locations to check
+    for x in range(-25,26):
+        for y in range(-5,31):
+            shots = []
+            for x_offset in range(-filter_width, filter_width+1):
+                for y_offset in range(-filter_width, filter_width+1):
+                    shots += pos2shots.get((x+x_offset,y+y_offset),[])
+            count = len(shots)
+            if count == 0:
+                continue
+            pct = float(sum(shots))/count
+            xs.append(x)
+            ys.append(y)
+            pcts.append(pct)
+            ops.append(count)
+
+    max_count = float(max(ops))
+    for i in range(len(ops)):
+        ops[i]/=(0.5*max_count)
+
+    return zip(xs,ys,pcts,ops)
 
 def draw_shotchart(xs,ys,pct):
+    from matplotlib import pyplot as plot
+    from matplotlib.colors import Normalize as norm
     plot.scatter(xs,ys,c=pct,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.85),s=100)
     plot.show()
     
 def create_shotchart_plot(tups):
-    # TODO return figure, not the plot object
+    from matplotlib import pyplot as plot
+    from matplotlib.colors import Normalize as norm
     for (x,y,pct,op) in tups:
         plot.scatter(x,y,c=pct,alpha=op,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.7),s=50)
     return plot
+
+
+#TODO: fix axes. label pcts. work on opacity scaling.
+@utils.timeit
+def create_shotchart_png(tups):
+    """
+    returns a stringIO object that stores the binary PNG data for a plot
+    """
+    from matplotlib import pyplot as plot
+    from matplotlib.colors import Normalize as norm
+    for (x,y,pct,op) in tups:
+        plot.scatter(x,y,c=pct,alpha=op,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.7),s=50)
+    out = StringIO.StringIO()
+    plot.savefig(out,ext='png')
+    plot.close()
+    return out
+    
 
 def draw_shotchart(tups):
     plot = create_shotchart_plot(tups)
     plot.show()
 
 if __name__ == '__main__':
-    tups = prepare_shotchart2()
+    tups = prepare_shotchart()
     pl = create_shotchart_plot(tups)
     pl.show()

@@ -34,9 +34,11 @@ def shotchart_img():
     if request.method == 'GET':
         mongo_params = shot_filters.merge_filters(request.args)
         tups = shotchart.prepare_shotchart(mongo_params)
-        plot = shotchart.create_shotchart_plot(tups)
-        out = StringIO.StringIO()
-        plot.savefig(out,ext = 'png')
+        print len(tups)
+        out = shotchart.create_shotchart_png(tups)
+        #plot = shotchart.create_shotchart_plot(tups)
+        #out = StringIO.StringIO()
+        #plot.savefig(out,ext = 'png')
         resp = make_response(out.getvalue())
         resp.headers['Content-Type'] = 'image/png'
         return resp
