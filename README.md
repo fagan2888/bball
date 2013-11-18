@@ -28,4 +28,11 @@ http://docs.mongodb.org/manual/reference/operator/query/center/
 
 #TODO
 match game / shot data to teams
-
+create game filter:
+  * filter by day
+  * filter by month
+  * filter by season
+  * filter by reg season v playoffs
+  * filter by team?
+prettify shotcharts
+add some basic auth to mongo
