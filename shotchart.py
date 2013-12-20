@@ -92,7 +92,7 @@ def prepare_shotchart(params={}):
 
     max_count = float(max(ops))
     for i in range(len(ops)):
-        ops[i]/=(0.5*max_count)
+        ops[i]/=(0.15*max_count)
 
     return zip(xs,ys,pcts,ops)
 
@@ -119,7 +119,7 @@ def create_shotchart_png(tups):
     from matplotlib import pyplot as plot
     from matplotlib.colors import Normalize as norm
     for (x,y,pct,op) in tups:
-        plot.scatter(x,y,c=pct,alpha=op,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.7),s=50)
+        plot.scatter(x,y,c=pct,alpha=op,marker='s',cmap=plot.cm.jet,norm=norm(vmin=0.25,vmax=0.7),s=50,linewidths=0)
     out = StringIO.StringIO()
     plot.savefig(out,ext='png')
     plot.close()

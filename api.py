@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 import shotchart
 import shot_filters
 import utils
@@ -42,6 +42,13 @@ def shotchart_img():
         resp = make_response(out.getvalue())
         resp.headers['Content-Type'] = 'image/png'
         return resp
+
+@app.route('/shotchart2')
+def shotchart2():
+    if request.method == 'GET':
+        mongo_params = shot_filters.merge_filters(request.args)
+        tups = shotchart.prepare_shotchart(mongo_params)
+        return render_template('shotchart2.html', tups=tups)
     
 if __name__ == '__main__':
     app.run(port=8080,debug = True)
