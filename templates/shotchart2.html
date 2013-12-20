@@ -1,12 +1,42 @@
 <html>
     <head>
         <title>Shot Chart</title>
-        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+        <script src="{{ url_for('static', filename='d3.v3.min.js') }}" charset="utf-8"></script>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     </head>
 
     <body>
         <div id='content'>
+            {#
+            {% for (x,y,pct,op) in tups %}
+                x: {{x}}, 
+                y: {{y}}, 
+                pct: {{pct}}, 
+                op: {{op}}
+                <br />
+            {% endfor %}
+            #}
+            <script type="text/javascript">
+                var w = 500;
+                var h = 350;
+                var tups = {% autoescape false %} {{tups}} {% endautoescape %};
+                var svg = d3.select("body")
+                            .append("svg")
+                            .attr("width", w)
+                            .attr("height", h)
+                            .attr("class", "svg");
+
+                svg.selectAll("rect")
+                    .data(tups)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return 10*(d[0]+25); })
+                    .attr("y", function(d) { return 10*(d[1]+5); })
+                    .attr("width", 10)
+                    .attr("height", 10)
+                    .attr("fill", function(d) { return d3.hsl(0,.5,d[2]); });
+            </script>
         </div> <!-- #content -->
     </body>
 </html>

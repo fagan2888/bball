@@ -48,6 +48,8 @@ def shotchart2():
     if request.method == 'GET':
         mongo_params = shot_filters.merge_filters(request.args)
         tups = shotchart.prepare_shotchart(mongo_params)
+        from numpy import array
+        tups = [[x,y,pct,op] for (x,y,pct,op) in tups]
         return render_template('shotchart2.html', tups=tups)
     
 if __name__ == '__main__':
