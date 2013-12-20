@@ -230,7 +230,9 @@ def insert_all_shots():
         cnt+=1
 
 def populate_db():
+    print 'inserting games'
     insert_game_ids()
+    print 'inserting shots'
     insert_all_shots()
 
 if __name__ == '__main__':
