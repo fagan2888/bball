@@ -80,6 +80,12 @@ def player_first_name(name):
 def player_last_name(name):
     return {'espn_last_name_lower':name.lower()}
 
+def left(x):
+    return {'x': {'$lt': x}}
+
+def right(x):
+    return {'x': {'$gte': x}}
+
 filters = {'espn_game_id': espn_game_id,
            'distance': distance_str,
            'min_distance': min_distance,
@@ -90,7 +96,9 @@ filters = {'espn_game_id': espn_game_id,
            'home': home,
            'name': player_name,
            'first_name': player_first_name,
-           'last_name': player_last_name
+           'last_name': player_last_name,
+           'left': left,
+           'right': right
            }
 
 def merge_filters(params):

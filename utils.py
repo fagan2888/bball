@@ -2,6 +2,7 @@ from dateutil import parser as dateparser
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 import time
+import numpy as np
 
 def get_db():
     conn = MongoClient()
@@ -30,3 +31,9 @@ def timeit(fn):
         print "%s took %0.3f seconds" % (fn.__name__,time.time()-start)
         return resp
     return timed
+
+def ci(p, n):
+    z = 1.96 # 95% confidence interval
+    se = (1.0/n)*p*(1-p)
+    error = z * np.sqrt(se)
+    return (p - error, p + error)
