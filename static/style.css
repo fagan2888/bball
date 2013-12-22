@@ -22,15 +22,6 @@
     margin-right: auto;
 }
 
-#barchart rect {
-    fill: steelblue;
-}
-
-#barchart text {
-    fill: black;
-    font: 11px sans-serif;
-}
-
 .axis text {
     font: 11px sans-serif;
 }
