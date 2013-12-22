@@ -37,6 +37,36 @@
                                  var l = d[2];
                                  return c(l);
                          });
+                
+                // left, right
+                var barHeight = 20;
+                var shot_side_pct_data = [[0, 0.4071,0.4099,0.4127], [1, 0.4729,0.4752,0.4775]];
+                var width = d3.scale.linear()
+                                .domain(0.4, 0.5)
+                                .range(0,w);
+                var shot_side_pct = d3.select("body")
+                                      .append("svg")
+                                      .attr("class", "svg")
+                                      .attr("id", "shot_side_pct");
+                // shot_side_pct.selectAll("rect")
+                //              .data(shot_side_pct_data)
+                //              .enter()
+                //              .append("rect")
+                //              .attr("x", function(d) { return 10*d[0] + 5; })
+                //              .attr("y", 0)
+                //              .attr("width", 10)
+                //              .attr("height", function(d) { return 100*d[2]; });
+                var chart = d3.select("#shot_side_pct")
+                              .attr("width", w)
+                              .attr("height", barHeight * shot_side_pct_data.length);
+                var bar = chart.selectAll("g")
+                               .data(shot_side_pct_data)
+                            .enter().append("g")
+                               .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+                bar.append("rect")
+                   .attr("width", width)
+                   .attr("height", barHeight - 1);
             </script>
         </div> <!-- #content -->
     </body>
