@@ -51,6 +51,11 @@ def shotchart2():
         from numpy import array
         tups = [[x,y,pct,op] for (x,y,pct,op) in tups]
         return render_template('shotchart2.html', tups=tups)
+
+@app.route('/left-right')
+def left_right():
+    if request.method == 'GET':
+        return render_template('left-right.html')
     
 if __name__ == '__main__':
     app.run(port=8080,debug = True)

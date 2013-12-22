@@ -13,10 +13,31 @@
     margin-left:auto;
     margin-right:auto;
     text-align: center;
+    font-family: sans-serif;
 }
 
 .svg {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#barchart rect {
+    fill: steelblue;
+}
+
+#barchart text {
+    fill: black;
+    font: 11px sans-serif;
+}
+
+.axis text {
+    font: 11px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
