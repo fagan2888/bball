@@ -9,34 +9,43 @@
     <body>
         <div id='content'>
             <script type="text/javascript">
+                // heatmap of percentage of shots made
+
+                // setup
                 var w = 500;
                 var h = 350;
+                // read data from python
                 var tups = {{tups}}
 
-                // heatmap of percentage of shots made
+                var hi = 0.6;
+                var lo = 0.3;
+
+                // color map; does not use rainbow, as in
+                // http://www.jwave.vt.edu/~rkriz/Projects/create_color_table/color_07.pdf
+                var c = d3.scale.linear()
+                                .domain([lo,hi])
+                                .range(["red","green"]);
+
+                // set up svg
                 var shotchart = d3.select("body")
                                   .append("svg")
                                   .attr("width", w)
                                   .attr("height", h)
                                   .attr("class", "svg")
                                   .attr("id", "shotchart");
+                // add location squares
                 shotchart.selectAll("rect")
                          .data(tups)
                          .enter()
                          .append("rect")
+                         // x and y are relative to location of the net
+                         // some values are negative; we offset to be on
+                         // the interval [0,inf)
                          .attr("x", function(d) { return 10*(d[0]+25); })
                          .attr("y", function(d) { return 10*(d[1]+5); })
                          .attr("width", 10)
                          .attr("height", 10)
-                         .attr("fill", function(d) {
-                                 var hi = 0.6;
-                                 var lo = 0.3;
-                                 var c = d3.scale.linear()
-                                                 .domain([lo,hi])
-                                                 .range(["red","blue"]);
-                                 var l = d[2];
-                                 return c(l);
-                         });
+                         .attr("fill", function(d) { return c(d[2]); });
             </script>
         </div> <!-- #content -->
     </body>
