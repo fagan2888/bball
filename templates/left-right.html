@@ -51,6 +51,7 @@
                     .attr("width", x.rangeBand()); // pretty bar widths--see ordinal scale
 
                 // now add error bars
+                var w = 3; // error bar width
                 var errors = chart.selectAll(".errors")
                     .data(proportions)
                   .enter().append("line")
@@ -58,6 +59,22 @@
                     .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2; })
                     .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2; })
                     .attr("y1", function(d) { return y(d.l); })
+                    .attr("y2", function(d) { return y(d.u); })
+                var errors_l = chart.selectAll(".errors_l")
+                    .data(proportions)
+                  .enter().append("line")
+                    .attr("class", "errors_l")
+                    .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                    .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                    .attr("y1", function(d) { return y(d.l); })
+                    .attr("y2", function(d) { return y(d.l); });
+                var errors_u = chart.selectAll(".errors_u")
+                    .data(proportions)
+                  .enter().append("line")
+                    .attr("class", "errors_u")
+                    .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                    .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                    .attr("y1", function(d) { return y(d.u); })
                     .attr("y2", function(d) { return y(d.u); });
 
                 // format and add axes
