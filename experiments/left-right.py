@@ -1,3 +1,5 @@
+# hypothesis test for difference in means between left
+# and right side of net for proportion of shots made
 import utils
 import shot_filters
 from pandas import DataFrame, Series
