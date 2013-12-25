@@ -57,5 +57,10 @@ def left_right():
     if request.method == 'GET':
         return render_template('left-right.html')
     
+@app.route('/quarterly')
+def quarterly():
+    if request.method == 'GET':
+        return render_template('quarterly.html')
+
 if __name__ == '__main__':
     app.run(port=8080,debug = True)

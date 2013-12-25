@@ -7,30 +7,32 @@
 
     <body>
         <div id='content'>
-            Proportion of Shots Made by Left / Right of Net
+            Proportion of Shots Made by Quarter
             <br />
             <small>(Error bars give 95% confidence intervals)</small>
             <svg class="svg" id="barchart"></svg>
             <script type="text/javascript">
                 // data: value is proportion, with confidence interval (l, u)
                 var proportions = [
-                    {name: "Left", value: 0.4099, l: 0.4071, u: 0.4127},
-                    {name: "Right", value: 0.4752, l: 0.4729, u: 0.4775}
+                    {name: "Q1", value: 0.4606, l: 0.4571, u: 0.4641},
+                    {name: "Q2", value: 0.4541, l: 0.4505, u: 0.4577},
+                    {name: "Q3", value: 0.4465, l: 0.4429, u: 0.4501},
+                    {name: "Q4", value: 0.4350, l: 0.4314, u: 0.4387}
                     ];
 
                 // configure plot area
-                var margin = {top: 20, right: 30, bottom: 30, left: 40},
-                    width = 200 - margin.left - margin.right,
+                var margin = {top: 20, right: 40, bottom: 30, left: 40},
+                    width = 300 - margin.left - margin.right,
                     height = 400 - margin.top - margin.bottom,
                     barWidth = width / proportions.length;
 
                 // set x-axis scale
                 var x = d3.scale.ordinal()
-                    .domain(["Left", "Right"])
+                    .domain(["Q1", "Q2", "Q3", "Q4"])
                     .rangeRoundBands([0, width], .1);
                 // set y-axis scale
                 var y = d3.scale.linear()
-                    .domain([0.4, 0.48])
+                    .domain([0.42, 0.48])
                     .range([height, 0]);
 
                 // set up canvas
