@@ -52,15 +52,10 @@ def shotchart2():
         tups = [[x,y,pct,op] for (x,y,pct,op) in tups]
         return render_template('shotchart2.html', tups=tups)
 
-@app.route('/left-right')
-def left_right():
+@app.route('/visualizations')
+def visualizations():
     if request.method == 'GET':
-        return render_template('left-right.html')
-    
-@app.route('/quarterly')
-def quarterly():
-    if request.method == 'GET':
-        return render_template('quarterly.html')
+        return render_template('visualizations.html')
 
 if __name__ == '__main__':
     app.run(port=8080,debug = True)

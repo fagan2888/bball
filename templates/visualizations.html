@@ -1,0 +1,211 @@
+<html>
+    <head>
+        <title>Visualizations of ESPN Shot Data</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    </head>
+
+    <body>
+        <div id='content'>
+            <div id='left-right' class='viz'>
+                Proportion of Shots Made by Left / Right of Net
+                <br />
+                <small>(Error bars give 95% confidence intervals)</small>
+                <svg class="svg" id="barchart1"></svg>
+                <script type="text/javascript">
+                    // data: value is proportion, with confidence interval (l, u)
+                    var proportions = [
+                        {name: "Left", value: 0.4099, l: 0.4071, u: 0.4127},
+                        {name: "Right", value: 0.4752, l: 0.4729, u: 0.4775}
+                        ];
+
+                    // configure plot area
+                    var margin = {top: 20, right: 30, bottom: 30, left: 40},
+                        width = 200 - margin.left - margin.right,
+                        height = 400 - margin.top - margin.bottom,
+                        barWidth = width / proportions.length;
+
+                    // set x-axis scale
+                    var x = d3.scale.ordinal()
+                        .domain(["Left", "Right"])
+                        .rangeRoundBands([0, width], .1);
+                    // set y-axis scale
+                    var y = d3.scale.linear()
+                        .domain([0.4, 0.48])
+                        .range([height, 0]);
+
+                    // set up canvas
+                    var chart = d3.select("#barchart1")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    // for each item in the data, add a rect
+                    var bar = chart.selectAll(".bar")
+                        .data(proportions)
+                    .enter().append("rect")
+                        .attr("class", "bar")
+                        .attr("x", function(d) { return x(d.name); })
+                        .attr("y", function(d) { return y(d.value); })
+                        .attr("height", function(d) { return height - y(d.value); })
+                        .attr("width", x.rangeBand()); // pretty bar widths--see ordinal scale
+
+                    // now add error bars
+                    var w = 3; // error bar width
+                    var errors = chart.selectAll(".errors")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2; })
+                        .attr("y1", function(d) { return y(d.l); })
+                        .attr("y2", function(d) { return y(d.u); })
+                    var errors_l = chart.selectAll(".errors_l")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors_l")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                        .attr("y1", function(d) { return y(d.l); })
+                        .attr("y2", function(d) { return y(d.l); });
+                    var errors_u = chart.selectAll(".errors_u")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors_u")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                        .attr("y1", function(d) { return y(d.u); })
+                        .attr("y2", function(d) { return y(d.u); });
+
+                    // format and add axes
+                    var xAxis = d3.svg.axis()
+                        .scale(x)
+                        .orient("bottom")
+                        .ticks(2, "%");
+                    chart.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis);
+
+                    var yAxis1 = d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .ticks(10, "%");
+                    chart.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis1);
+                    var yAxis2 = d3.svg.axis()
+                        .scale(y)
+                        .orient("right")
+                        .ticks(10, "%");
+                    chart.append("g")
+                        .attr("class", "y axis")
+                        .attr("transform", "translate(" + width + ",0)")
+                        .call(yAxis2);
+                </script>
+            </div> <!-- #left-right -->
+
+            <div id='quarterly' class='viz'>
+                Proportion of Shots Made by Quarter
+                <br />
+                <small>(Error bars give 95% confidence intervals)</small>
+                <svg class="svg" id="barchart2"></svg>
+                <script type="text/javascript">
+                    // data: value is proportion, with confidence interval (l, u)
+                    var proportions = [
+                        {name: "Q1", value: 0.4606, l: 0.4571, u: 0.4641},
+                        {name: "Q2", value: 0.4541, l: 0.4505, u: 0.4577},
+                        {name: "Q3", value: 0.4465, l: 0.4429, u: 0.4501},
+                        {name: "Q4", value: 0.4350, l: 0.4314, u: 0.4387}
+                        ];
+
+                    // configure plot area
+                    var margin = {top: 20, right: 40, bottom: 30, left: 40},
+                        width = 300 - margin.left - margin.right,
+                        height = 400 - margin.top - margin.bottom,
+                        barWidth = width / proportions.length;
+
+                    // set x-axis scale
+                    var x = d3.scale.ordinal()
+                        .domain(["Q1", "Q2", "Q3", "Q4"])
+                        .rangeRoundBands([0, width], .1);
+                    // set y-axis scale
+                    var y = d3.scale.linear()
+                        .domain([0.42, 0.48])
+                        .range([height, 0]);
+
+                    // set up canvas
+                    var chart = d3.select("#barchart2")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    // for each item in the data, add a rect
+                    var bar = chart.selectAll(".bar")
+                        .data(proportions)
+                    .enter().append("rect")
+                        .attr("class", "bar")
+                        .attr("x", function(d) { return x(d.name); })
+                        .attr("y", function(d) { return y(d.value); })
+                        .attr("height", function(d) { return height - y(d.value); })
+                        .attr("width", x.rangeBand()); // pretty bar widths--see ordinal scale
+
+                    // now add error bars
+                    var w = 3; // error bar width
+                    var errors = chart.selectAll(".errors")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2; })
+                        .attr("y1", function(d) { return y(d.l); })
+                        .attr("y2", function(d) { return y(d.u); })
+                    var errors_l = chart.selectAll(".errors_l")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors_l")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                        .attr("y1", function(d) { return y(d.l); })
+                        .attr("y2", function(d) { return y(d.l); });
+                    var errors_u = chart.selectAll(".errors_u")
+                        .data(proportions)
+                    .enter().append("line")
+                        .attr("class", "errors_u")
+                        .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2 - w; })
+                        .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2 + w; })
+                        .attr("y1", function(d) { return y(d.u); })
+                        .attr("y2", function(d) { return y(d.u); });
+
+                    // format and add axes
+                    var xAxis = d3.svg.axis()
+                        .scale(x)
+                        .orient("bottom")
+                        .ticks(2, "%");
+                    chart.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis);
+
+                    var yAxis1 = d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .ticks(10, "%");
+                    chart.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis1);
+                    var yAxis2 = d3.svg.axis()
+                        .scale(y)
+                        .orient("right")
+                        .ticks(10, "%");
+                    chart.append("g")
+                        .attr("class", "y axis")
+                        .attr("transform", "translate(" + width + ",0)")
+                        .call(yAxis2);
+                </script>
+            </div> <!-- #quarterly -->
+        </div> <!-- #content -->
+    </body>
+</html>
