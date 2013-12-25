@@ -1,12 +1,17 @@
 /*
  * colorscheme:
- * 69D2E7
- * A7DBD8
- * E0E4CC
- * F38630
- * FA6900
+ * CFF09E
+ * A8DBA8
+ * 79BD9A
+ * 3B8686
+ * 0B486B
  * http://www.colourlovers.com/palette/92095/Giant_Goldfish
  */
+
+body {
+    background-color: #45484B;
+    color: #EEE6AB;
+}
 
 #content {
     width: 800px;
@@ -23,11 +28,17 @@
 
 .axis text {
     font: 11px serif;
+    fill: #EEE6AB;
+}
+
+rect {
+    stroke: #EEE6AB;
+    fill: #45484B;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: #000;
+    stroke: #EEE6AB;
     shape-rendering: crispEdges;
 }
