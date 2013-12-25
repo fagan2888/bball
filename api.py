@@ -3,6 +3,7 @@ import shotchart
 import shot_filters
 import utils
 import StringIO
+from viz_code import left_right, quarterly
 
 app = Flask(__name__)
 
@@ -55,6 +56,8 @@ def shotchart2():
 @app.route('/visualizations')
 def visualizations():
     if request.method == 'GET':
+        # left_right()
+        quarterly()
         return render_template('visualizations.html')
 
 if __name__ == '__main__':

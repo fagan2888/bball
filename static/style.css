@@ -8,10 +8,16 @@ body {
     color: #EEE6AB;
 }
 
-#content {
-    width: 800px;
-    margin-left:auto;
-    margin-right:auto;
+/*
+ * #content {
+ *     width: 800px;
+ *     margin-left:auto;
+ *     margin-right:auto;
+ *     text-align: center;
+ * }
+ */
+
+.viz {
     text-align: center;
 }
 
@@ -20,6 +26,14 @@ body {
     margin-left: auto;
     margin-right: auto;
     fill: #EEE6AB;
+}
+
+#left-right {
+    float: left;
+}
+
+#quarterly {
+    float: center;
 }
 
 .axis text {
