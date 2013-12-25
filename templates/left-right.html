@@ -8,6 +8,8 @@
     <body>
         <div id='content'>
             Proportion of Shots Made by Left / Right of Net
+            <br />
+            <small>(Error bars give 95% confidence intervals)</small>
             <svg class="svg" id="barchart"></svg>
             <script type="text/javascript">
                 // data: value is proportion, with confidence interval (l, u)
@@ -19,7 +21,7 @@
                 // configure plot area
                 var margin = {top: 20, right: 30, bottom: 30, left: 40},
                     width = 200 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom,
+                    height = 400 - margin.top - margin.bottom,
                     barWidth = width / proportions.length;
 
                 // set x-axis scale
@@ -48,6 +50,16 @@
                     .attr("height", function(d) { return height - y(d.value); })
                     .attr("width", x.rangeBand()); // pretty bar widths--see ordinal scale
 
+                // now add error bars
+                var errors = chart.selectAll(".errors")
+                    .data(proportions)
+                  .enter().append("line")
+                    .attr("class", "errors")
+                    .attr("x1", function(d) { return x(d.name) + x.rangeBand()/2; })
+                    .attr("x2", function(d) { return x(d.name) + x.rangeBand()/2; })
+                    .attr("y1", function(d) { return y(d.l); })
+                    .attr("y2", function(d) { return y(d.u); });
+
                 // format and add axes
                 var xAxis = d3.svg.axis()
                     .scale(x)
@@ -74,6 +86,7 @@
                     .attr("transform", "translate(" + width + ",0)")
                     .call(yAxis2);
             </script>
+            <br />
         </div> <!-- #content -->
     </body>
 </html>
