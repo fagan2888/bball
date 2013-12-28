@@ -8,9 +8,12 @@
     <body>
         <div id='content'>
             <div id='left-right' class='viz'>
+
                 Proportion of Shots Made by Left / Right of Net
                 <br />
                 <small>(Error bars give 95% confidence intervals)</small>
+                <br />
+
                 <svg class="svg" id="barchart1"></svg>
                 <script type="text/javascript">
                     // data: value is proportion, with confidence interval (l, u)
@@ -22,7 +25,7 @@
                         var lr_proportions = data;
 
                         // configure plot area
-                        var margin = {top: 20, right: 30, bottom: 30, left: 40},
+                        var margin = {top: 20, right: 50, bottom: 30, left: 50},
                             width = 200 - margin.left - margin.right,
                             height = 400 - margin.top - margin.bottom,
                             barWidth = width / lr_proportions.length;
@@ -107,12 +110,16 @@
                             .call(yAxis2);
                     });
                 </script>
+
             </div> <!-- #left-right -->
 
             <div id='quarterly' class='viz'>
+
                 Proportion of Shots Made by Quarter
                 <br />
                 <small>(Error bars give 95% confidence intervals)</small>
+                <br />
+
                 <svg class="svg" id="barchart2"></svg>
                 <script type="text/javascript">
                     // data: value is proportion, with confidence interval (l, u)
@@ -126,7 +133,7 @@
                         var q_proportions = data;
 
                         // configure plot area
-                        var margin = {top: 20, right: 40, bottom: 30, left: 40},
+                        var margin = {top: 20, right: 50, bottom: 30, left: 50},
                             width = 300 - margin.left - margin.right,
                             height = 400 - margin.top - margin.bottom,
                             barWidth = width / q_proportions.length;
@@ -211,24 +218,24 @@
                             .call(yAxis2);
                     });
                 </script>
+
                 <p>It seems at first glance that a possible explanation for the decline in shot accuracy might be due to an increase in shots made on net: energy is conserved in the first few quarters, and only really kick into gear in the latter half. The number of shots made might stay constant, but the proportion decreases because so many more shots are attempted in the latter part of the game.</p>
-                <p>But the data does not support this: as seen in the barchart below, the number of shots&mdash;attempted at all&mdash;actually <i>decreases</i> as the game progresses, and it must be the case that the number of shots made decreases even more rapidly! This might be explained by players warming up throughout the game and improving their defense, or an increased sense of urgency in guarding the net.</i></p>
+                <br /><br />
+                <p>But the data does not support this: as seen in the barchart below, the number of shots&mdash;attempted at all&mdash;actually <i>decreases</i> as the game progresses, and it must be the case that the number of shots made decreases even more rapidly! This might be explained by players warming up throughout the game and improving their defense, or an increased sense of urgency in guarding the net.</p>
+            </div> <!-- #quarterly -->
+
+            <div class='viz' id="quarterly-level">
 
                 Number of Shots Made by Quarter
+                <br />
+
                 <svg class='svg' id='barchart3'></svg>               
                 <script type="text/javascript">
-                    // data: value is proportion, with confidence interval (l, u)
-                    // var q_proportions = [
-                    //     {name: "Q1", value: 0.4606, l: 0.4571, u: 0.4641},
-                    //     {name: "Q2", value: 0.4541, l: 0.4505, u: 0.4577},
-                    //     {name: "Q3", value: 0.4465, l: 0.4429, u: 0.4501},
-                    //     {name: "Q4", value: 0.4350, l: 0.4314, u: 0.4387}
-                    //     ];
                     d3.json("{{ url_for('static', filename='data/total_quarterly.json') }}", function(data) {
                         var q_proportions = data;
 
                         // configure plot area
-                        var margin = {top: 20, right: 40, bottom: 30, left: 40},
+                        var margin = {top: 20, right: 50, bottom: 30, left: 50},
                             width = 300 - margin.left - margin.right,
                             height = 400 - margin.top - margin.bottom,
                             barWidth = width / q_proportions.length;
@@ -283,11 +290,19 @@
                             .call(yAxis2);
                     });
                 </script>
+
                 <p>The objection might be made that the displayed barchart may suffer from Simpson's Paradox: namely, it is possible that the individual games do not conform to the total counts displayed in the above barchart.</p>
                 <p>Therefore, below, we present the average number of shots by quarter, and note that there is a statistical difference between quarters in the number of shots even attempted; the above conclusion thus holds that there are not more shots made on net with a constant number made, so the decline in proportion must be due to something else.</p>
+
+            </div> <!-- #quarterly-level -->
+
+            <div class='viz' id="quarterly-averages">
+
                 Number of Shots Made by Quarter
                 <br />
                 <small>(Error bars give 95% confidence intervals)</small>
+                <br />
+
                 <svg class="svg" id="barchart4"></svg>
                 <script type="text/javascript">
                     // data: value is proportion, with confidence interval (l, u)
@@ -295,7 +310,7 @@
                         var q_proportions = data;
 
                         // configure plot area
-                        var margin = {top: 20, right: 40, bottom: 30, left: 40},
+                        var margin = {top: 20, right: 50, bottom: 30, left: 50},
                             width = 300 - margin.left - margin.right,
                             height = 400 - margin.top - margin.bottom,
                             barWidth = width / q_proportions.length;
@@ -377,7 +392,9 @@
                             .call(yAxis2);
                     });
                 </script>
-            </div> <!-- #quarterly -->
+
+            </div> <!-- #quarterly-averages -->
+
         </div> <!-- #content -->
     </body>
 </html>

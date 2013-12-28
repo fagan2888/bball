@@ -1,59 +1,44 @@
-/*
- * colorscheme:
- * http://www.colourlovers.com/palette/90734/Newly_Risen_Moon
- */
-
-body {
-    background-color: #45484B;
-    color: #EEE6AB;
-}
-
 #content {
-    width: 800px;
     margin-left:auto;
     margin-right:auto;
-    text-align: center;
 }
 
 .viz {
-    text-align: center;
+    clear: both;
+    display: block;
 }
 
 .svg {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    fill: #EEE6AB;
+    fill: #000;
+    float: left;
 }
 
-/*
- * #left-right {
- *     float: left;
- * }
- * 
- * #quarterly {
- *     float: center;
- * }
- */
+.section {
+    clear: both;
+}
+
 
 .axis text {
     font: 11px serif;
-    fill: #EEE6AB;
 }
 
 rect {
-    stroke: #EEE6AB;
-    fill: #45484B;
+    stroke: #000;
+    fill: #FFF;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: #EEE6AB;
+    stroke: #000;
     shape-rendering: crispEdges;
 }
 
 line {
-    stroke: #EEE6AB;
+    stroke #000;
     stroke-width: 1;
+}
+.errors, .errors_u, .errors_l {
+    stroke: #000;
 }
