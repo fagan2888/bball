@@ -1,6 +1,7 @@
 #content {
     margin-left:auto;
     margin-right:auto;
+    width: 800px;
 }
 
 .viz {
@@ -11,6 +12,9 @@
 .svg {
     display: block;
     fill: #000;
+}
+.image {
+    text-align: center;
     float: left;
 }
 
